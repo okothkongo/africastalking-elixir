@@ -1,34 +1,37 @@
 name: Elixir CI
 
 on:
+  pull_request:
   push:
     branches:
       - develop
       - master
-  pull_request:
-    branches:
-      - master
-      - develop
 
 jobs:
-  check-lint:
-
-    runs-on: ubuntu-20.04
-
+  mix_test:
+    name: mix test (Elixir ${{ matrix.elixir }} | OTP ${{ matrix.otp }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - elixir: 1.12.x
+            otp: 24
+    env:
+      MIX_ENV: test
     steps:
-    - uses: actions/checkout@v2
-    - name: Create dev file
-      run: mv config/dev.sample.exs config/dev.exs
-    - name: Setup elixir
-      uses: erlef/setup-beam@v1
-      with:
-        elixir-version: '1.12'
-        otp-version: '24'
-    - name: Install Dependencies
-      run: mix deps.get
-    - name: Run Tests
-      run: mix test
-    - name: Check formatting
-      run: mix format --check-formatted
-    - name: Checking compile warnings
-      run: mix compile --warnings-as-errors --force
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{ matrix.otp }}
+          elixir-version: ${{ matrix.elixir }}
+      - name: Cache build artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ matrix.otp }}-${{ matrix.elixir }}-build
+      - run: mix deps.get --only test
+      - run: mix lint
+      - run: mix test
