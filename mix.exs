@@ -5,9 +5,10 @@ defmodule AtEx.MixProject do
     [
       app: :at_ex,
       version: "0.20.23",
-      elixir: "~> 1.8",
+      elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
+      aliases: aliases(),
       description: description(),
       package: package(),
       name: "AtEx",
@@ -31,6 +32,12 @@ defmodule AtEx.MixProject do
     ]
   end
 
+  defp aliases do
+    [
+      lint: ["format --check-formatted", "compile --warnings-as-errors"]
+    ]
+  end
+
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
@@ -49,7 +56,14 @@ defmodule AtEx.MixProject do
     [
       # This option is only needed when you don't want to use the OTP application name
       name: "at_ex",
-      maintainers: ["Paul Oguda", "Magak Emmanuel", "Zacck Osiemo", "Tracey Onim", "Sigu Magwa"],
+      maintainers: [
+        "Paul Oguda",
+        "Magak Emmanuel",
+        "Zacck Osiemo",
+        "Tracey Onim",
+        "Sigu Magwa",
+        "Okoth Kongo"
+      ],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/elixirkenya/africastalking-elixir"},
       source_url: "https://github.com/elixirkenya/africastalking-elixir",
