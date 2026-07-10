@@ -43,7 +43,7 @@ defmodule AtEx.MixProject do
     [
       {:jason, "~> 1.4"},
       {:tesla, "~> 1.20"},
-      {:ex_doc, "~> 0.31.1", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.40.3", only: :dev, runtime: false}
     ]
   end
 
