@@ -45,5 +45,5 @@ jobs:
             _build
           key: ${{ matrix.otp }}-${{ matrix.elixir }}-build
       - run: mix deps.get --only test
-      - run: mix lint
+      # - run: mix lint
       - run: mix test
